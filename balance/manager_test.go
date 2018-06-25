@@ -27,7 +27,7 @@ func TestBalanceMgr_GetAddr(t *testing.T) {
 	}
 }
 func TestBalanceMgr_DeleteNodeAddr(t *testing.T) {
-	addrs := genNodeAddrs(3,10)
+	addrs := GenNodeAddrs(3,10)
 	for _,addr :=range addrs {
 		fmt.Println(addr)
 	}

@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func genNodeAddrs(num int,weight int) NodeAddrs{
+func GenNodeAddrs(num int,weight int) NodeAddrs{
 	var addrs NodeAddrs
 	rand.Seed(time.Now().Unix())
 	for i := 0; i < num; i++ {

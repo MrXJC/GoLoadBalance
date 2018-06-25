@@ -6,7 +6,7 @@ import (
 )
 
 func Test_GetMaxWeight(t *testing.T){
-	addrs := genNodeAddrs(3,10)
+	addrs := GenNodeAddrs(3,10)
 	fmt.Println(getMaxWeight(addrs))
     addrs[0].weight=4
     addrs[1].weight=4
@@ -15,7 +15,7 @@ func Test_GetMaxWeight(t *testing.T){
 }
 
 func TestBalanceMgr_RoundRobin(t *testing.T) {
-	addrs := genNodeAddrs(3,10)
+	addrs := GenNodeAddrs(3,10)
 	for _,addr :=range addrs {
 		fmt.Println(addr)
 	}
