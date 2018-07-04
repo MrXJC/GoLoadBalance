@@ -33,7 +33,6 @@ func (p *BalanceMgr) GetAddr(name string)(*NodeAddr,int,error) {
 	if p.change[name]{
 		p.updateBalancer(name)
 	}
-
 	balancer := p.balancers[name]
 	addr,index,err  := balancer.DoBalance(p.addrs)
 	return addr,index,err
@@ -66,6 +65,14 @@ func (p *BalanceMgr) AddNodeAddr(addr *NodeAddr){
 
 func (p *BalanceMgr) DeleteNodeAddr(i int){
 	p.addrs = append(p.addrs[:i], p.addrs[i+1:]...)
+	for name,_ :=range p.change{
+		p.change[name]=true
+	}
+}
+
+
+func (p *BalanceMgr) UpdateWeightNodeAddr(i int,weight int){
+	p.addrs[i].UpdateWeight(weight)
 	for name,_ :=range p.change{
 		p.change[name]=true
 	}

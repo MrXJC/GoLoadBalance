@@ -30,6 +30,10 @@ func (p *NodeAddr) GetWeight() int {
 	return p.weight
 }
 
+func (p *NodeAddr) UpdateWeight( weight int) {
+	p.weight = weight
+}
+
 func (p *NodeAddr) String() string {
 	return p.host + ":" + strconv.Itoa(p.port)
 }
