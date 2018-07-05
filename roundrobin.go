@@ -14,10 +14,10 @@ func (p *RoundRobinBalance) init(addrs NodeAddrs){
 	p.curindex = -1
 }
 
-func (p *RoundRobinBalance) DoBalance(addrs NodeAddrs)(*NodeAddr,int,error){
+func (p *RoundRobinBalance) DoBalance()(int,error){
 	if p.size == 0 {
 		err := errors.New("No addr")
-		return &NodeAddr{},0,err
+		return 0,err
 	}
 
 
@@ -27,7 +27,7 @@ func (p *RoundRobinBalance) DoBalance(addrs NodeAddrs)(*NodeAddr,int,error){
 		p.curindex = 0
 	}
 
-	return addrs[p.curindex],p.curindex,nil
+	return p.curindex,nil
 }
 
 
@@ -38,6 +38,7 @@ type RoundRobinWeightBalance struct {
 	maxweight int
 	gcd int
 	cw int
+	weight []int
 }
 
 func (p *RoundRobinWeightBalance) init(addrs NodeAddrs){
@@ -46,12 +47,15 @@ func (p *RoundRobinWeightBalance) init(addrs NodeAddrs){
 	p.maxweight = getMaxWeight(addrs)
 	p.gcd = Gcd(addrs)
 	p.cw = 0
+	for _,addr :=range(addrs){
+		p.weight = append(p.weight,addr.GetWeight())
+	}
 }
 
-func (p *RoundRobinWeightBalance) DoBalance(addrs NodeAddrs)(*NodeAddr,int,error){
+func (p *RoundRobinWeightBalance) DoBalance()(int,error){
 	if p.size == 0 {
 		err := errors.New("No addr")
-		return &NodeAddr{},0,err
+		return 0,err
 	}
 
 	for {
@@ -62,13 +66,13 @@ func (p *RoundRobinWeightBalance) DoBalance(addrs NodeAddrs)(*NodeAddr,int,error
 				p.cw = p.maxweight
 				if p.cw == 0 {
 					err := errors.New("the max weight is 0")
-					return &NodeAddr{},0,err
+					return 0,err
 				}
 			}
 		}
 
-		if weight:= addrs[p.curindex].GetWeight(); weight >= p.cw {
-	        return addrs[p.curindex],p.curindex,nil
+		if weight:= p.weight[p.curindex]; weight >= p.cw {
+	        return p.curindex,nil
 		}
 	}
 

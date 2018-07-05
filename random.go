@@ -13,13 +13,13 @@ func (p *RandomBalance) init(addrs NodeAddrs){
 	p.size = len(addrs)
 }
 
-func (p *RandomBalance) DoBalance(addrs NodeAddrs)(*NodeAddr,int,error){
+func (p *RandomBalance) DoBalance()(int,error){
 	if p.size == 0 {
 		err := errors.New("No addr")
-		return &NodeAddr{},0,err
+		return 0,err
 	}
 	curindex := rand.Intn(p.size)
-	return addrs[curindex],curindex,nil
+	return curindex,nil
 }
 
 type RandomWeightBalance struct {
@@ -37,11 +37,11 @@ func (p *RandomWeightBalance) init(addrs NodeAddrs){
 	p.size = len(p.distribution)
 }
 
-func (p *RandomWeightBalance) DoBalance(addrs NodeAddrs)(*NodeAddr,int,error){
+func (p *RandomWeightBalance) DoBalance()(int,error){
 	if p.size == 0 {
 		err := errors.New("No addr")
-		return &NodeAddr{},0,err
+		return 0,err
 	}
 	curindex :=p.distribution[rand.Intn(p.size)]
-	return addrs[curindex],curindex,nil
+	return curindex,nil
 }

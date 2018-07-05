@@ -34,8 +34,8 @@ func (p *BalanceMgr) GetAddr(name string)(*NodeAddr,int,error) {
 		p.updateBalancer(name)
 	}
 	balancer := p.balancers[name]
-	addr,index,err  := balancer.DoBalance(p.addrs)
-	return addr,index,err
+	index,err  := balancer.DoBalance()
+	return p.addrs[index],index,err
 }
 
 func (p *BalanceMgr) GetAddrString(name string)(string,int,error) {
